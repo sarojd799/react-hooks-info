@@ -1,0 +1,6 @@
+1.When component is rending twice check if there is react strict mode enabled
+2. use state is called each time state updates also during initial render so better  to use a  
+callback function to initialize the value rather than to use a value directly
+3.in use-effect hook if  you don't pass second argument then it will run on each side effect
+4.in use-effect hook  if you pass empty array then it will only run on mount and if you pass 
+any value to the array of the second argument then each side effect of variable will cause use-effect call
