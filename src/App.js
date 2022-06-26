@@ -2,6 +2,7 @@ import { useState } from "react";
 import UseEffectDemo from "./hooks/use-effect";
 import UseMemoDemo from "./hooks/use-memo";
 import UseStateDemo from "./hooks/use-state-demo";
+import UseContext from "./hooks/use-context";
 
 function App() {
 
@@ -12,6 +13,7 @@ function App() {
       {/* <UseStateDemo  /> */}
       {/* <UseEffectDemo /> */}
       <UseMemoDemo />
+      {/* <UseContext /> */}
     </div>
   );
 }
