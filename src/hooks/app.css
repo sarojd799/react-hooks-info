@@ -1,0 +1,26 @@
+.use-imperative-handle-component {
+    align-self: center;
+}
+.use-imperative-handle-component p{
+    margin: 2rem;
+    width: 35rem;
+    display: flex;
+    justify-content: space-around;   
+}
+.use-imperative-handle-component p:first-child button {
+    padding:0.5rem 1rem;
+    cursor: pointer;
+}
+.use-imperative-handle-component p:last-child span {
+    height: 5rem;
+    width: 5rem;
+    background-color: tomato;
+    color:#fff;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    transition:transform 1s linear;
+}
+.use-imperative-handle-component p:last-child span.animate {
+    transform:rotateZ(360deg);
+}

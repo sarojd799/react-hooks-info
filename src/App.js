@@ -5,10 +5,10 @@ import UseStateDemo from "./hooks/use-state-demo";
 import UseContext from "./hooks/use-context";
 import UseReducer from "./hooks/use-reducer";
 import UseRef from "./hooks/use-ref";
+import UseCallback from "./hooks/use-callback";
+import UseImperativeHandle from "./hooks/use-imperative-handle"
 
 function App() {
-
-  const [count, setCount] = useState(0);
 
   return (
     <div className="App">
@@ -17,7 +17,9 @@ function App() {
       {/* <UseMemoDemo /> */}
       {/* <UseContext /> */}
       {/* <UseReducer /> */}
-      <UseRef />
+      {/* <UseRef /> */}
+      {/* <UseCallback /> */}
+      <UseImperativeHandle />
     </div>
   );
 }
