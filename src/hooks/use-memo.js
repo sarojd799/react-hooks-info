@@ -10,7 +10,7 @@ function UseMemoDemo(props) {
 
     let [color, setColor] = useState(0);
     let [count, setCount] = useState(0)
-
+    //multiple memo  hook usage is not adviced as it is also a function which gets call  to check comparision
     const doubleNumber = useMemo(() => expensiveComputation(count), [count])
     //const doubleNumber = expensiveComputation(count) //such computation and result needs to be memoized
     const theme = useMemo(() => ({

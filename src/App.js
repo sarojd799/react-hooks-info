@@ -3,6 +3,8 @@ import UseEffectDemo from "./hooks/use-effect";
 import UseMemoDemo from "./hooks/use-memo";
 import UseStateDemo from "./hooks/use-state-demo";
 import UseContext from "./hooks/use-context";
+import UseReducer from "./hooks/use-reducer";
+import UseRef from "./hooks/use-ref";
 
 function App() {
 
@@ -12,8 +14,10 @@ function App() {
     <div className="App">
       {/* <UseStateDemo  /> */}
       {/* <UseEffectDemo /> */}
-      <UseMemoDemo />
+      {/* <UseMemoDemo /> */}
       {/* <UseContext /> */}
+      {/* <UseReducer /> */}
+      <UseRef />
     </div>
   );
 }
