@@ -1,6 +1,8 @@
 import React, { useImperativeHandle, useRef } from 'react';
 import './app.css'
-
+/*
+  1.useImperativeHandle should be used with forwardRef:
+*/
 function Box(props, ref) {
 
     const box1 = useRef();

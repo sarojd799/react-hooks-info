@@ -30,3 +30,24 @@
    background-color: tomato;
    color:#fff;
  }
+
+ .popup {
+  height: 6rem;
+  width:6rem;
+  border:0.065rem solid lightgray;
+  position: absolute;
+  top:0;
+  left:0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+ }
+ .btn-pad-051 {
+    padding:0.5rem 1rem;
+ }
+ .height-100 {
+  height:100%;
+ }
+ .width-100 {
+  width:100%;
+ }

@@ -7,6 +7,14 @@ import UseReducer from "./hooks/use-reducer";
 import UseRef from "./hooks/use-ref";
 import UseCallback from "./hooks/use-callback";
 import UseImperativeHandle from "./hooks/use-imperative-handle"
+import UseLayoutEffect from "./hooks/use-layout-effect";
+
+
+import ForwardRef from "./hooks/test/forward-ref";
+import UseDebugValue from "./hooks/use-debug-value";
+import UseDeferredValueComponent from "./hooks/use-deferred-value";
+import UseTransition from "./hooks/use-transition";
+
 
 function App() {
 
@@ -19,7 +27,12 @@ function App() {
       {/* <UseReducer /> */}
       {/* <UseRef /> */}
       {/* <UseCallback /> */}
-      <UseImperativeHandle />
+      {/* <UseImperativeHandle /> */}
+      {/* <ForwardRef /> */}
+      {/* <UseLayoutEffect /> */}
+      {/* <UseDebugValue /> */}
+      {/* <UseDeferredValueComponent /> */}
+      <UseTransition />
     </div>
   );
 }
