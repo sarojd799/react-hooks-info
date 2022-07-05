@@ -14,6 +14,8 @@ import ForwardRef from "./hooks/test/forward-ref";
 import UseDebugValue from "./hooks/use-debug-value";
 import UseDeferredValueComponent from "./hooks/use-deferred-value";
 import UseTransition from "./hooks/use-transition";
+import UseID from "./hooks/use-id";
+import ModalComponent from "./misc/ModalComponent";
 
 
 function App() {
@@ -32,7 +34,12 @@ function App() {
       {/* <UseLayoutEffect /> */}
       {/* <UseDebugValue /> */}
       {/* <UseDeferredValueComponent /> */}
-      <UseTransition />
+      {/* <UseTransition /> */}
+      {/* <UseID /> */}
+
+      <ModalComponent>
+        <h1>Hello from modal</h1>
+      </ModalComponent>
     </div>
   );
 }

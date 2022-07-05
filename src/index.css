@@ -8,9 +8,15 @@
    width: 100vw;
  }
  body,
- #root {
+ #root,
+ #modal-root {
    height: 100%;
    width: 100%;
+ }
+ #modal-root {
+   position: fixed;
+   top: 0;
+   left: 0;
  }
  .App {
    height: 100%;

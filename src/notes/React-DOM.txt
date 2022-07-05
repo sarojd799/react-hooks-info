@@ -1,0 +1,21 @@
+ReactDOM
+--------
+The react-dom package provides DOM-specific methods that can be used at the top level 
+of your app and as an escape hatch to get outside the React model if you need to.
+
+The react-dom package also provides modules specific to client and server apps:
+-----------------------------------------------------------------------------
+react-dom/client
+react-dom/server
+
+The react-dom package exports these methods:
+-------------------------------------------
+createPortal()
+flushSync()
+
+These react-dom methods are also exported, but are considered legacy:
+
+render()
+hydrate()
+findDOMNode()
+unmountComponentAtNode()

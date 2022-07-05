@@ -1,0 +1,575 @@
+React may batch multiple setState() calls into a single update for performance.
+
+Because this.props and this.state may be updated asynchronously, 
+you should not rely on their values for calculating the next state.
+
+
+#https://reactjs.org/docs/composition-vs-inheritance.html:-
+---------------------------------------------------------
+If you want to reuse non-UI functionality between components, 
+we suggest extracting it into a separate JavaScript module. The components may import it and use that function, 
+object, or a class, without extending it.
+
+#This lifecycle was previously named componentWillMount. That name will continue to work until version 17
+
+#class component hooks removed after react 17
+1.UNSAFE_componentWillMount()
+2.UNSAFE_componentWillReceiveProps(nextProps)
+
+#static getDerivedStateFromProps(props, state)
+----------------------------------------------
+1. getDerivedStateFromProps is invoked right before calling the render method, 
+both on the initial mount and on subsequent updates. It should return an object to update the state,
+or null to update nothing.
+
+2.This method exists for rare use cases where the state depends on changes in props over time
+
+
+#react class mounting hooks:(when an instance of a component is being created and inserted into the DOM)
+---------------------------
+constructor()
+static getDerivedStateFromProps()
+render()
+componentDidMount()
+
+#react class update hooks: (An update can be caused by changes to props or state)
+-------------------------
+static getDerivedStateFromProps()
+shouldComponentUpdate()
+render()
+getSnapshotBeforeUpdate()
+componentDidUpdate()
+
+#react unmounting hook ( when a component is being removed from the DOM)
+-------------------------------------------------------------------------
+1.componentWillUnmount()
+
+#Error Handling[These methods are called when there is an error during rendering, in a lifecycle method, or in the constructor of any child component.]
+-------------------------------------------------------------------------
+static getDerivedStateFromError()
+componentDidCatch()
+
+
+#Other APIs:[Each component also provides some other APIs]
+---------------------------------------------------------
+1.setState()
+2.forceUpdate()
+
+#Class Properties
+----------------
+1.defaultProps
+2.displayName
+
+#Instance Properties
+--------------------
+1.props
+2.state
+
+#Fragments
+----------
+def:A common pattern in React is for a component to return multiple elements
+use case: rending table tag for rending multiple tr from separate component we can bind them using <React.Fragment> or <>
+*) React.Fragment tag is useful when we are rending in loop then we need keys
+Example:
+
+    <dl>
+      {props.items.map(item => (
+        // Without the `key`, React will fire a key warning
+        <React.Fragment key={item.id}>
+          <dt>{item.term}</dt>
+          <dd>{item.description}</dd>
+        </React.Fragment>
+      ))}
+    </dl> 
+
+
+#Portals:(Portals provide a first-class way to render children into a DOM node that 
+exists outside the DOM hierarchy of the parent component)
+
+usecase:A typical use case for portals is when a parent component has an overflow: hidden or z-index style, 
+but you need the child to visually “break out” of its container. For example, dialogs, hovercards, and tooltips
+
+render() {
+  // React does *not* create a new div. It renders the children into `domNode`.
+  // `domNode` is any valid DOM node, regardless of its location in the DOM.
+  return ReactDOM.createPortal(
+    this.props.children,
+    domNode
+  );
+}
+
+#Even though a portal can be anywhere in the DOM tree, it behaves like a normal React child
+
+step-1: create #modalRoot
+step-2: in Modal component constructor create element div
+step-3: in modal component componentDidMount append div to #modalRoot
+step-4: in modal component  componentWillUnmount remove div from #modalRoot
+step-5: in render return ReactDOM.createPortal(this.props.children,  div ref)
+step-6: use composition to inject modal children
+
+#An event fired from inside a portal will propagate to ancestors in the containing React tree, 
+even if those elements are not ancestors in the DOM tree.
+
+#The render() function should be pure, meaning that it does not modify component state
+
+https://reactjs.org/docs/react-component.html
+
+#When implementing the constructor for a React.Component subclass, you should call super(props) before any other statement. Otherwise, this.props will be undefined in the constructor
+
+#constructor
+------------
+should only be used to initialize state or bind method to the class reference
+
+#componentDidMount
+------------------
+should be used for subscibing to observables and network calls
+
+#componentDidUpdate
+-------------------
+syntax: componentDidUpdate(prevProps, prevState, snapshot)
+
+#This method is not called for the initial render.
+
+#good place to update state based on conditional checking i.e. checking prev props with curr props
+
+
+#componentWillUnmount()
+----------------------
+
+#is invoked immediately before a component is unmounted and destroyed
+
+#Perform any necessary cleanup in this method, such as invalidating timers, canceling network requests, or cleaning up any subscriptions
+
+#shouldComponentUpdate(nextProps, nextState)
+--------------------------------------------
+
+#is invoked before rendering when new props or state are being received
+
+#This method is not called for the initial render or when forceUpdate() is used.
+
+#This method only exists as a performance optimization
+
+#Do not rely on it to “prevent” a rendering, as this can lead to bugs. 
+
+#Consider using the built-in PureComponent instead of writing shouldComponentUpdate() by hand
+
+#returning false does not prevent child components from re-rendering when their state changes.
+
+#Currently, if shouldComponentUpdate() returns false, then UNSAFE_componentWillUpdate(), render(), 
+ and componentDidUpdate() will not be invoked
+
+# consider using PureComponent instead  of using should component update
+
+#React.PureComponent
+--------------------
+React.PureComponent is similar to React.Component. 
+The difference between them is that React.Component doesn’t implement shouldComponentUpdate(), 
+but React.PureComponent implements it with a shallow prop and state comparison.
+
+#constructor:-
+------------
+
+#If you don’t initialize state and you don’t bind methods, 
+ you don’t need to implement a constructor for your React component.
+
+#The constructor for a React component is called before it is mounted
+
+#if you don't write super(props)then props inside constructor will be undefined
+
+#Constructor is the only place where you should assign this.state directly
+
+#assign prop to state only if you want to assign  once. cause subsequent prop update will not update state
+
+--------------
+
+#static getDerivedStateFromProps(props, state)
+
+#getDerivedStateFromProps is invoked right before calling the render method, 
+
+#both on the initial mount and on subsequent updates. 
+
+#It should return an object to update the state, or null to update nothing.
+
+#This method exists for rare use cases where the state depends on changes in props over time.
+
+
+
+#Anti-pattern: Unconditionally copying props to state
+-----------------------------------------------------
+A common misconception is that getDerivedStateFromProps and componentWillReceiveProps are only called when 
+props “change”. These lifecycles are called any time a parent component rerenders, 
+regardless of whether the props are “different” from before
+
+
+#notes:
+1.for any piece of data, you need to pick a single component that owns it as the source of truth, 
+and avoid duplicating it in other components
+
+#we can use the special React attribute called key. When a key changes, React will create a new component 
+instance rather than update the current one
+
+#controlled and uncontrolled components:-
+----------------------------------------
+controlled components are components whose value is maintained by react state.
+
+uncontrolled components are components whose values are managed by dom
+
+
+
+#getSnapshotBeforeUpdate(prevProps, prevState)
+----------------------------------------------
+
+#is invoked right before the most recently rendered output is committed to e.g. the DOM
+
+#Any value returned by this lifecycle method will be passed as a parameter to componentDidUpdate()
+
+  getSnapshotBeforeUpdate(prevProps, prevState) {
+    // Are we adding new items to the list?
+    // Capture the scroll position so we can adjust scroll later.
+    if (prevProps.list.length < this.props.list.length) {
+      const list = this.listRef.current;
+      return list.scrollHeight - list.scrollTop;
+    }
+    return null;
+  }
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    // If we have a snapshot value, we've just added new items.
+    // Adjust scroll so these new items don't push the old ones out of view.
+    // (snapshot here is the value returned from getSnapshotBeforeUpdate)
+    if (snapshot !== null) {
+      const list = this.listRef.current;
+      list.scrollTop = list.scrollHeight - snapshot;
+    }
+  }
+
+#Error boundaries:-
+
+#Error boundaries are React components that catch JavaScript errors anywhere in their child component tree, log those errors
+
+
+1.static getDerivedStateFromError(error)
+-----------------------------------
+#This lifecycle is invoked after an error has been thrown by a descendant component. 
+ It receives the error that was thrown as a parameter and should return a value to update state.
+
+#getDerivedStateFromError() is called during the “render” phase, so side-effects are not permitted. 
+ For those use cases, use componentDidCatch() instead.
+
+class ErrorBoundary extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { hasError: false };
+  }
+
+  static getDerivedStateFromError(error) {
+    // Update state so the next render will show the fallback UI.
+    return { hasError: true };
+  }
+
+  render() {
+    if (this.state.hasError) {
+      // You can render any custom fallback UI
+      return <h1>Something went wrong.</h1>;
+    }
+
+    return this.props.children;
+  }
+}
+
+2.componentDidCatch(error, info):-
+--------------------------------
+This lifecycle is invoked after an error has been thrown by a descendant component. It receives two parameters:
+
+error - The error that was thrown.
+info - An object with a componentStack key containing information about which component threw the error
+
+componentDidCatch() is called during the “commit” phase, so side-effects are permitted
+
+#On development, the errors will bubble up to window, this means that any window.onerror or window.addEventListener('error', callback) 
+will intercept the errors that have been caught by componentDidCatch().
+
+#On production, instead, the errors will not bubble up, which means any ancestor error handler will only 
+receive errors not explicitly caught by componentDidCatch().
+
+
+#Legacy Lifecycle Methods:-
+-------------------------
+
+1.UNSAFE_componentWillMount():-
+------------------------------
+#is invoked just before mounting occurs (just before render)
+#This is the only lifecycle method called on server rendering
+
+
+2.UNSAFE_componentWillReceiveProps(nextProps)
+--------------------------------------------
+#UNSAFE_componentWillReceiveProps() is invoked before a mounted component receives new props
+#Note that if a parent component causes your component to re-render, this method will be called even if props have not changed. Make sure to compare the current and next values if you only want to handle changes.
+#React doesn’t call UNSAFE_componentWillReceiveProps() with initial props during mounting.
+
+3.UNSAFE_componentWillUpdate(nextProps, nextState)
+-------------------------------------------------
+#is invoked just before rendering when new props or state are being received
+#UNSAFE_componentWillUpdate() will not be invoked if shouldComponentUpdate() returns false.
+
+
+
+#Other APIS:-
+------------
+
+1.setState(updater[, callback]):-
+---------------------------------
+#Think of setState() as a request rather than an immediate command to update the component
+#For better perceived performance, React may delay it, and then update several components in a single pass
+#In the rare case that you need to force the DOM update to be applied synchronously, you may wrap it in flushSync
+#setState() does not always immediately update the component. It may batch or defer the update until later.
+#This makes reading this.state right after calling setState() a potential pitfall
+#setState() will always lead to a re-render unless shouldComponentUpdate() returns false.
+#It should not be directly mutated. Instead, changes should be represented by building a new object based on the input from state and props
+
+this.setState((state, props) => {
+  return {counter: state.counter + props.step};
+});
+
+#The second parameter to setState() is an optional callback function that will be executed once setState is completed and the component is re-rendered.
+
+setState(stateChange[, callback])
+
+2.forceUpdate(): component.forceUpdate(callback)
+-----------------------------------------------
+#If your render() method depends on some other data, you can tell React that the component needs re-rendering by calling forceUpdate().
+#Calling forceUpdate() will cause render() to be called on the component, skipping shouldComponentUpdate().
+#omponents, including the shouldComponentUpdate() method of each child. React will still only update the DOM if the markup changes.
+#Normally you should try to avoid all uses of forceUpdate() and only read from this.props and this.state in render().
+
+
+#Class Properties-
+-----------------
+1.defaultProps:-
+defaultProps can be defined as a property on the component class itself, 
+  to set the default props for the class. This is used for undefined props, but not for null props
+
+class CustomButton extends React.Component {
+  // ...
+}
+
+CustomButton.defaultProps = {
+  color: 'blue'
+};
+If props.color is not provided, it will be set by default to 'blue':
+If props.color is set to null, it will remain null:
+
+  render() {
+    return <CustomButton /> ; // props.color will be set to blue
+  }
+ render() {
+    return <CustomButton color={null} /> ; // props.color will remain null
+  }
+
+
+#using typescript:-
+----------------
+npx create-react-app my-app --template typescript
+
+
+#React Top-Level API
+---------------------
+#React.PureComponent is similar to React.Component. 
+The difference between them is that React.Component doesn’t implement shouldComponentUpdate()
+
+1.React.memo
+------------
+React.memo is a higher order component.
+
+const MyComponent = React.memo(function MyComponent(props) {
+  /* render using props */
+})
+
+#If your component renders the same result given the same props, you can wrap it in a call to React.memo
+ for a performance boost in some cases by memoizing the result
+#React.memo only checks for prop changes
+#If your function component wrapped in React.memo has a useState, useReducer or useContext Hook in its implementation, it will still rerender when state or context change.
+
+#By default it will only shallowly compare complex objects in the props object. If you want control over the comparison, you can also provide a custom comparison function as the second argument.
+
+function MyComponent(props) {
+  /* render using props */
+}
+function areEqual(prevProps, nextProps) {
+  /*
+  return true if passing nextProps to render would return
+  the same result as passing prevProps to render,
+  otherwise return false
+  */
+}
+export default React.memo(MyComponent, areEqual);
+
+
+2.createElement()
+
+syntax:
+
+React.createElement(
+  type,
+  [props],
+  [...children]
+)
+
+#Creates and return a new React element of the given type
+#The type argument can be either a tag name string (such as 'div' or 'span'), a React component type (a class or a function),
+ or a React fragment type.
+
+
+3.cloneElement()
+---------------
+#Clone and return a new React element using element as the starting point
+#config should contain all new props, key, or ref
+
+4.createFactory()
+----------------
+syntax:React.createFactory(type)
+
+#Return a function that produces React elements of a given type.
+#the type argument can be either a tag name string (such as 'div' or 'span'), a React component type (a class or a function), or a React fragment type.
+
+#This helper is considered legacy, and we encourage you to either use JSX or use React.createElement() directly instead.
+
+5.isValidElement():
+-------------------
+syntax:React.isValidElement(object)
+
+#Verifies the object is a React element. Returns true or false.
+
+6.React.Children
+----------------
+React.Children provides utilities for dealing with the this.props.children opaque data structure.
+
+syntax:React.Children.map(children, function[(thisArg)])
+
+#Invokes a function on every immediate child contained within children with this set to thisArg
+#If children is null or undefined, this method will return null or undefined rather than an array.
+
+i.React.Children.map(children, function[(thisArg)])
+ii.React.Children.forEach(children, function[(thisArg)])
+iii.React.Children.count(children)
+iv.React.Children.only(children): Verifies that children has only one child Otherwise this method throws an error.
+
+v.React.Children.toArray(children):-
+---------------------------------
+Useful if you want to manipulate collections of children in your render methods, 
+especially if you want to reorder or slice this.props.children before passing it down.
+
+vi.React.createRef:-
+-------------------
+Creates a ref that can be attached to React elements via the ref attribute.
+
+class MyComponent extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.inputRef = React.createRef();
+  }
+
+  render() {
+    return <input type="text" ref={this.inputRef} />;
+  }
+
+  componentDidMount() {
+    this.inputRef.current.focus();
+  }
+}
+
+vii.React.forwardRef:-
+----------------------
+#with forward  ref you can create a ref  in parent and attach in child. i.e.  control  from parent.
+#This is useful for 2 scenarios:-
+--------------------------------
+1.Forwarding refs to DOM components
+2.Forwarding refs in higher-order-components
+
+const FancyButton = React.forwardRef((props, ref) => (
+  <button ref={ref} className="FancyButton">
+    {props.children}
+  </button>
+));
+
+// You can now get a ref directly to the DOM button:
+const ref = React.createRef();
+<FancyButton ref={ref}>Click me!</FancyButton>;
+
+
+
+
+viii.React.lazy:-
+----------------
+#lets you define a component that is loaded dynamically
+#This helps reduce the bundle size to delay loading components that aren’t used during the initial render
+
+// This component is loaded dynamically
+const SomeComponent = React.lazy(() => import('./SomeComponent'));
+
+
+ix.React.Suspense:-
+-------------------
+# lets you specify the loading indicator in case some components in the tree below it are not yet ready to render.
+
+// This component is loaded dynamically
+const OtherComponent = React.lazy(() => import('./OtherComponent'));
+
+function MyComponent() {
+  return (
+    // Displays <Spinner> until OtherComponent loads
+    <React.Suspense fallback={<Spinner />}>
+      <div>
+        <OtherComponent />
+      </div>
+    </React.Suspense>
+  );
+}
+
+#It is documented in our code splitting guide. Note that lazy components can be deep inside the Suspense tree — 
+ it doesn’t have to wrap every one of them
+
+
+x.React.startTransition:-
+------------------------
+
+#ets you mark updates inside the provided callback as transitions. 
+ This method is designed to be used when React.useTransition is not available.
+
+
+
+
+
+
+
+
+----------------------------------------------------------------------------------
+
+  functional component hooks:-
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
