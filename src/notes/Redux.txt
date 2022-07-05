@@ -1,0 +1,14 @@
+
+Q.What are middlewares in redux?
+ans: middlewares are functions which gets executed in between action dispatch and reducer execution.
+mainly used to handle logging or side effects
+
+Q.What are the differences between redux saga and redux thunk?
+ans: both are middlewares where in redux thunk it uses call back to make action creators async and
+in redux saga it uses generator functions with async await to prevent callback hell.
+
+Q.What is redux?
+ans: A client side state management system not tightly coupled to UI.
+
+Q.Will redux dispatch work if you don't mention the type for the action ?
+ans:No, it will throw errors.
