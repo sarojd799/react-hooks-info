@@ -16,6 +16,7 @@ import UseDeferredValueComponent from "./hooks/use-deferred-value";
 import UseTransition from "./hooks/use-transition";
 import UseID from "./hooks/use-id";
 import ModalComponent from "./misc/ModalComponent";
+import SuspenseExample from "./misc/ReactSuspense";
 
 
 function App() {
@@ -37,9 +38,11 @@ function App() {
       {/* <UseTransition /> */}
       {/* <UseID /> */}
 
-      <ModalComponent>
+      {/* <ModalComponent>
         <h1>Hello from modal</h1>
-      </ModalComponent>
+      </ModalComponent> */}
+
+      <SuspenseExample />
     </div>
   );
 }
